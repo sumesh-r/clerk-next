@@ -1,5 +1,5 @@
-import { SignIn } from "@clerk/nextjs";
 import React from "react";
+import { SignIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
