@@ -1,15 +1,14 @@
 import { SignOutButton, auth, currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Home() {
   const { userId } = auth();
-  if (!userId) {
-    redirect("/signin");
+  let user;
+  if (userId) {
+    user = await currentUser();
   }
-  const user = await currentUser();
   return (
     <div>
-      {" "}
       <header>
         <nav
           className="flex items-center justify-between p-6 lg:px-8 h-20 border border-t-0 border-x-0 border-b-gray-600"
@@ -28,9 +27,21 @@ export default async function Home() {
         </nav>
       </header>
       <div className="flex min-h-screen items-center justify-center">
-        <h1>
-          Hello {user?.firstName} {user?.lastName}
-        </h1>
+        {userId ? (
+          <h1 className="text-2xl -mt-36 font-bold">
+            Hello {user?.firstName} {user?.lastName}
+          </h1>
+        ) : (
+          <div className="flex flex-col justify-center items-center -mt-36 space-y-3">
+            <h1 className="text-2xl font-bold mb-5">Login</h1>
+            <Link
+              className="bg-blue-600 px-3 py-2 text-lg  font-semibold rounded"
+              href={"/signin"}
+            >
+              signin
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
